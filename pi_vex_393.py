@@ -68,12 +68,12 @@ class Motors:
 			
 			# if this part doesn't work, probably use AND instead of double >
 			# go forward
-			if FORWARD_DUTY_CYCLE_LIMIT > duty_cycle > NEUTRAL_DUTY_CYCLE_LIMIT:
+			if FORWARD_DUTY_CYCLE_LIMIT >= duty_cycle >= NEUTRAL_DUTY_CYCLE_LIMIT:
 				left_motor_pwm(duty_cycle)
 				print(f'Spinning left motor forwards with duty cycle {duty_cycle}')
 
 			# if not then go backward
-			elif REVERSE_DUTY_CYCLE_LIMIT < duty_cycle < NEUTRAL_DUTY_CYCLE_LIMIT:
+			elif REVERSE_DUTY_CYCLE_LIMIT <= duty_cycle <= NEUTRAL_DUTY_CYCLE_LIMIT:
 				left_motor_pwm(duty_cycle)
 				print(f'Spinning left motor reverse with duty cycle {duty_cycle}')
 
