@@ -1,6 +1,8 @@
 # 
 #	Motor control library
 #	Use to control Vex 393s with RPi.GPIO2
+#
+#	Also, thanks to RPi.GPIO2 devs, you guys are awesome!
 #	
 #	TODO:
 #		- Make a separate repo for this, put it on the PyPI
