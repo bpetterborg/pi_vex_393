@@ -20,7 +20,7 @@ REVERSE_DUTY_CYCLE_LIMIT = 1	# duty cycle forward/reverse/neutral limits
 NEUTRAL_DUTY_CYCLE_LIMIT = 1.5	# may need to be tweaked on a per-motor
 FORWARD_DUTY_CYCLE_LIMIT = 2	# maybe move this to a config file
 
-left_motor_duty_cycle = 0 		# default duty cycle for the pwm
+NEUTRAL_DUTY_CYCLE_LIMIT = 0 		# default duty cycle for the pwm
 right_motor_duty_cycle = 0
 neutral_duty_cycle = 7
 
