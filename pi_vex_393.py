@@ -18,10 +18,6 @@ REVERSE_DUTY_CYCLE_LIMIT = 1	# duty cycle forward/reverse/neutral limits
 NEUTRAL_DUTY_CYCLE_LIMIT = 1.5	# may need to be tweaked on a per-motor
 FORWARD_DUTY_CYCLE_LIMIT = 2	# maybe move this to a config file
 
-left_motor_duty_cycle = 0 		# default duty cycle for the pwm
-right_motor_duty_cycle = 0
-neutral_duty_cycle = 7
-
 PWM_FREQUENCY = 50				# frequency of the pwm (hz)
 
 # setup
@@ -29,8 +25,8 @@ GPIO.setmode(GPIO.BCM)					# may need to set this to BOARD is stuff isn't workin
 GPIO.setup(left_motor_pin, GPIO.OUT) 	# pin 16 is the left motor
 GPIO.setup(right_motor_pin, GPIO.OUT) 	# pin 20 is the right motor
 
-left_motor_pwm = GPIO.PWM(left_motor_pin, PWM_FREQUENCY).start(left_motor_duty_cycle)
-right_motor_pwm = GPIO.PWM(right_motor_pin, PWM_FREQUENCY).start(right_motor_duty_cycle)
+left_motor_pwm = GPIO.PWM(left_motor_pin, PWM_FREQUENCY).start(NEUTRAL_DUTY_CYCLE_LIMIT)
+right_motor_pwm = GPIO.PWM(right_motor_pin, PWM_FREQUENCY).start(NEUTRAL_DUTY_CYCLE_LIMIT)
 
 class Motors:
 
@@ -112,3 +108,4 @@ class Motors:
 			print(f'Stopping right motor')
 			right_motor_pwm.stop()
 			
+		
