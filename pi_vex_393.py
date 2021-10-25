@@ -1,15 +1,15 @@
 # 
 #	Motor control library
 #	Use to control Vex 393s with RPi.GPIO2
+#
+#	Also, thanks to RPi.GPIO2 devs, you guys are awesome!
 #	
 #	TODO:
-#		- Make a separate repo for this, put it on the PyPI
+#		- Put on PyPI
 #			- Make it a submodule
 #		- Fix pwm
 #		- If duty cycle is set wrong, reject it
 #
-
-
 
 import RPi.GPIO2 as GPIO		# interface with the gpio/pwm
 
@@ -20,10 +20,6 @@ REVERSE_DUTY_CYCLE_LIMIT = 1	# duty cycle forward/reverse/neutral limits
 NEUTRAL_DUTY_CYCLE_LIMIT = 1.5	# may need to be tweaked on a per-motor
 FORWARD_DUTY_CYCLE_LIMIT = 2	# maybe move this to a config file
 
-NEUTRAL_DUTY_CYCLE_LIMIT = 0 		# default duty cycle for the pwm
-right_motor_duty_cycle = 0
-neutral_duty_cycle = 7
-
 PWM_FREQUENCY = 50				# frequency of the pwm (hz)
 
 # setup
@@ -31,8 +27,8 @@ GPIO.setmode(GPIO.BCM)					# may need to set this to BOARD is stuff isn't workin
 GPIO.setup(left_motor_pin, GPIO.OUT) 	# pin 16 is the left motor
 GPIO.setup(right_motor_pin, GPIO.OUT) 	# pin 20 is the right motor
 
-left_motor_pwm = GPIO.PWM(left_motor_pin, PWM_FREQUENCY).start(left_motor_duty_cycle)
-right_motor_pwm = GPIO.PWM(right_motor_pin, PWM_FREQUENCY).start(right_motor_duty_cycle)
+left_motor_pwm = GPIO.PWM(left_motor_pin, PWM_FREQUENCY).start(NEUTRAL_DUTY_CYCLE_LIMIT)
+right_motor_pwm = GPIO.PWM(right_motor_pin, PWM_FREQUENCY).start(NEUTRAL_DUTY_CYCLE_LIMIT)
 
 class Motors:
 
@@ -70,12 +66,12 @@ class Motors:
 			
 			# if this part doesn't work, probably use AND instead of double >
 			# go forward
-			if FORWARD_DUTY_CYCLE_LIMIT > duty_cycle > NEUTRAL_DUTY_CYCLE_LIMIT:
+			if FORWARD_DUTY_CYCLE_LIMIT >= duty_cycle >= NEUTRAL_DUTY_CYCLE_LIMIT:
 				left_motor_pwm(duty_cycle)
 				print(f'Spinning left motor forwards with duty cycle {duty_cycle}')
 
 			# if not then go backward
-			elif REVERSE_DUTY_CYCLE_LIMIT < duty_cycle < NEUTRAL_DUTY_CYCLE_LIMIT:
+			elif REVERSE_DUTY_CYCLE_LIMIT <= duty_cycle <= NEUTRAL_DUTY_CYCLE_LIMIT:
 				left_motor_pwm(duty_cycle)
 				print(f'Spinning left motor reverse with duty cycle {duty_cycle}')
 
@@ -96,12 +92,12 @@ class Motors:
 
 		def spin(self, duty_cycle):
 			# go forward
-			if FORWARD_DUTY_CYCLE_LIMIT > duty_cycle > NEUTRAL_DUTY_CYCLE_LIMIT:
+			if FORWARD_DUTY_CYCLE_LIMIT >= duty_cycle >= NEUTRAL_DUTY_CYCLE_LIMIT:
 				right_motor_pwm(duty_cycle)
 				print(f'Spinning right motor forwards with duty cycle {duty_cycle}')
 
 			# if not then go backward
-			elif REVERSE_DUTY_CYCLE_LIMIT < duty_cycle < NEUTRAL_DUTY_CYCLE_LIMIT:
+			elif REVERSE_DUTY_CYCLE_LIMIT <= duty_cycle <= NEUTRAL_DUTY_CYCLE_LIMIT:
 				right_motor_pwm(duty_cycle)
 				print(f'Spinning right motor resverse with duty cycle {duty_cycle}')
 
@@ -114,3 +110,4 @@ class Motors:
 			print(f'Stopping right motor')
 			right_motor_pwm.stop()
 			
+		
