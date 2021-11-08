@@ -9,16 +9,23 @@
 #			- Make it a submodule
 #		- Fix pwm
 #		- If duty cycle is set wrong, reject it
+#		- Add a config file or way to set the config values easily
+#		- Add support for different numbers of motors
+#		- Move prints to a log, or remove entirely (replace w/ notification for pioled(?)
+#		- Rewrite this
 #
 
 import RPi.GPIO2 as GPIO		# interface with the gpio/pwm
+import json
+
+
 
 left_motor_pin = 16				# which pins to use, may need to set later
 right_motor_pin = 20
 
 REVERSE_DUTY_CYCLE_LIMIT = 1	# duty cycle forward/reverse/neutral limits
 NEUTRAL_DUTY_CYCLE_LIMIT = 1.5	# may need to be tweaked on a per-motor
-FORWARD_DUTY_CYCLE_LIMIT = 2	# maybe move this to a config file
+FORWARD_DUTY_CYCLE_LIMIT = 2	# definitely move this to a config file
 
 PWM_FREQUENCY = 50				# frequency of the pwm (hz)
 
@@ -69,6 +76,7 @@ class Motors:
 			if FORWARD_DUTY_CYCLE_LIMIT >= duty_cycle >= NEUTRAL_DUTY_CYCLE_LIMIT:
 				left_motor_pwm(duty_cycle)
 				print(f'Spinning left motor forwards with duty cycle {duty_cycle}')
+				left_motor_status = ""
 
 			# if not then go backward
 			elif REVERSE_DUTY_CYCLE_LIMIT <= duty_cycle <= NEUTRAL_DUTY_CYCLE_LIMIT:
@@ -83,6 +91,7 @@ class Motors:
 			# stop the left motor
 			print(f'Stopping left motor')
 			left_motor_pwm.stop()
+
 
 
 	# control right motor
