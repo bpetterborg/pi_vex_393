@@ -1,0 +1,8 @@
+{
+	// motor settings
+	"pwm_frequency":50,
+	"neutral_duty_cycle":1.5,
+	"forward_duty_cycle":2,
+	"reverse_duty_cycle":1
+
+}
