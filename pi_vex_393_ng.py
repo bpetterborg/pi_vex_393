@@ -11,7 +11,24 @@
 #
 #
 
-import RPi.GPIO2 as GPIO
+import RPi.GPIO2 as GPIO	# gpio access
+import json					# config files
+
+class GetMotorConfig:
+	
+	def __init__(self) -> None:
+		pass
+
+	def read_config():
+		json.loads(open('motors.json').read())
+
+class GetStatusConfig:
+
+	def __init__(self) -> None:
+		pass
+
+	def read_config():
+		json.loads(open('status_messages.json').read())
 
 class Motors:
 
@@ -21,4 +38,5 @@ class Motors:
 	def test_module(self):
 		return 'Module working probably'
 
-	
+	def select_motor(self, motor):
+		return f'Select motor {motor}'
