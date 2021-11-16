@@ -1,8 +1,39 @@
 {
-	// motor settings
-	"pwm_frequency":50,
-	"neutral_duty_cycle":1.5,
-	"forward_duty_cycle":2,
-	"reverse_duty_cycle":1
+	/*
+		This is where the motor configuration goes.
+		It is preconfigured for Vex 393s, but you may need to change it yourself.
+	
+	*/
+
+	// configs for all of this type of motor
+	"vex_393":{
+		"motor_count":2,			// number of motors
+		"pwm_frequency":50,			// pwm freq in hz. 50hz will be the default.
+		"neutral_duty_cycle":1.5,	// neutral duty cycle. 1.5 is the default for Vex 393s.
+		"forward_duty_cycle":2,		// forward duty cycle limit. 2 is the default for Vex 393s.
+		"reverse_duty_cycle":1		// reverse duty cycle limit. 1 is the default for Vex 393s.
+	},
+
+
+	
+	/*
+		Additional motors can be added here.
+	*/
+
+	// motor1 config
+	"motor1":{
+		"id":1,
+		"type":"vex_393",
+		"name":"Left",
+		"pin":16
+	},
+	
+	// motor2 config
+	"motor2":{
+		"id":2,
+		"type":"vex_393",
+		"name":"Right",
+		"pin":20
+	}
 
 }
