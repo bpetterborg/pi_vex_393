@@ -17,19 +17,20 @@ import json					# config files
 # open and read motor and status configs
 class GetConfig:
 
-	def __init__(self) -> None:
-		pass
+	def __init__(self, config_value) -> None:
+		self.config_value = config_value
 
-	def status(self, status_message):
-		json.load(open('status_messages.jsonc').read())
+	def status(self):
+		json.load(open('status_messages.jsonc', 'r').read(self.config_value))
 
-	def motors():
-		json.load(open('motors.jsonc').read())
+	def motors(self):
+		json.load(open('motors.jsonc', 'r').read(self.config_value))
+
 
 # actually doing stuff with the motors.
 class Motors:
 
-	def __init__(self, motor) -> None:
+	def __init__(self, motor) -> None:s
 		pass
 
 	def testModule(self):
@@ -37,12 +38,4 @@ class Motors:
 
 	def selectMotor(self, motor):
 		return f'Select motor {motor}' # change this to debug status json read thing
-		motor_name = GetConfig.motors()["motor1"] # work on this to make it actually fetch motor name
-	
-
-
-
-# unused but saving for later
-
-# just trying stuff for the multiple motor support
-#motor_count = json.loads(open('motors.jsonc').read())['motor_count']
+		motor_name = GetConfig.motors('motorId') # work on this to make it actually fetch motor name
