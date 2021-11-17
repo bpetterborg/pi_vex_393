@@ -6,25 +6,25 @@
 #
 #	TODO:
 #		- figure out how to set different motor numbers/names
-#
-#
-#
+#		- parsing config file
+#		- add more motor control functions
+#		- 
 #
 
 import RPi.GPIO2 as GPIO	# gpio access
 import json					# config files
 
-# get configs
+# open and read motor and status configs
 class GetConfig:
 
 	def __init__(self) -> None:
 		pass
 
 	def status(self, status_message):
-		json.loads(open('status_messages.jsonc').read())
+		json.load(open('status_messages.jsonc').read())
 
 	def motors():
-		json.loads(open('motors.jsonc').read())
+		json.load(open('motors.jsonc').read())
 
 # actually doing stuff with the motors.
 class Motors:
@@ -37,7 +37,8 @@ class Motors:
 
 	def selectMotor(self, motor):
 		return f'Select motor {motor}' # change this to debug status json read thing
-		motor_name = GetConfig.motors()["motor1"]
+		motor_name = GetConfig.motors()["motor1"] # work on this to make it actually fetch motor name
+	
 
 
 
