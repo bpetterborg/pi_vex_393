@@ -30,7 +30,7 @@ class GetConfig:
 # actually doing stuff with the motors.
 class Motors:
 
-	def __init__(self, motor) -> None:s
+	def __init__(self, motor) -> None:
 		pass
 
 	def testModule(self):
