@@ -23,3 +23,8 @@ Programming). I feel that it is much more modular, clean and organised.
 
 #### Ideas
 This is where I store ideas for potential solutions to problems with my code
+
+- Store motors/setup values in a ~~dictionary~~ .jsonc file. 
+	- You can just use attributes in the .json file instead of having to iterate through
+		the number of motors and available setup values.
+
