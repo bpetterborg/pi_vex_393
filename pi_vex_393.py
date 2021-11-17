@@ -18,7 +18,7 @@
 import RPi.GPIO2 as GPIO		# interface with the gpio/pwm
 import json
 
-
+status_config = json.loads(open('status_messages.json'))
 
 left_motor_pin = 16				# which pins to use, may need to set later
 right_motor_pin = 20
