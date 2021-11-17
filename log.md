@@ -21,6 +21,12 @@ Controlling Vex 393 Motors using a Raspberry Pi.
 At the risk of sounding controversial, I prefer Functional Programming to OOP (Object-Oriented 
 Programming). I feel that it is much more modular, clean and organised. 
 
+I have also learned how to better use `*.json` files. This makes configuring stuff much easier.
+
+##### What am I working on?
+[View Git commit log](https://github.com/bpetterborg/pi_vex_393/commits/main)
+
+
 #### Ideas
 This is where I store ideas for potential solutions to problems with my code
 
