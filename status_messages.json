@@ -1,6 +1,4 @@
 {
-	// status/debug messages config
-
 	"motor_spinning": "SPIN MTR",
 	"motor_stopped": "STOP MTR",
 	"error": "ERR",
