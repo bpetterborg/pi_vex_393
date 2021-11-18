@@ -4,6 +4,6 @@
 	"motor_spinning": "SPIN MTR",
 	"motor_stopped": "STOP MTR",
 	"error": "ERR",
-	"warning": "WARN"
-
+	"warning": "WARN",
+	"cleanGpio":"CLN GPIO"
 }
