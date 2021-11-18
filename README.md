@@ -6,5 +6,6 @@ You can use this to replace a Cortex with a Pi. While it is untested, it
 should work with other SOCs that work with RPi.GPIO2. Be sure to set the 
 motors correctly. 
 
-Currently this only works with 2 motors at a time but I will
-probably fix that in the future.
+~~Currently this only works with 2 motors at a time but I will
+probably fix that in the future.~~ Currently working on the fix and numerous
+other fixes/improvements in `pi_vex_393_ng.py`.
