@@ -14,24 +14,20 @@
 import RPi.GPIO2 as GPIO	# gpio access
 import json
 
-from pi_vex_393.pi_vex_393 import FORWARD_DUTY_CYCLE_LIMIT, NEUTRAL_DUTY_CYCLE_LIMIT, REVERSE_DUTY_CYCLE_LIMIT					# config files
 
-
-# open and read motor and status configs
 class GetConfig:
 
-	def __init__(self, config_value) -> None:
-		self.config_value = config_value
+	def motor():
+		
+		with open("motors.json", "r") as motor_config_file:
+			motor_config = json.load(motor_config_file)
+			return motor_config
 
-	def status(self):
-		json.load(open('status_messages.jsonc', 'r').read([self.config_value]))
-
-	def motors(self):
-		json.load(open('motors.jsonc', 'r').read([self.config_value]))
-
-
-
-
+	def statusMessages():
+		
+		with open("status_messages.json", "r") as status_config_file:
+			status_config = json.load(status_config_file)
+			return status_config
 
 # actually doing stuff with the motors.
 class Motor:
@@ -54,16 +50,16 @@ class Motor:
 
 		# get config 
 		# could probably be replaced with a tuple, would be much cleaner
-		FORWARD_DUTY_CYCLE_LIMIT = GetConfig.motors('forward_duty_cycle')
-		NEUTRAL_DUTY_CYCLE_LIMIT = GetConfig.motors('neutral_duty_cycle')
-		REVERSE_DUTY_CYCLE_LIMIT = GetConfig.motors('reverse_duty_cycle')
+		#FORWARD_DUTY_CYCLE_LIMIT = GetConfig.motors('forward_duty_cycle')
+		#NEUTRAL_DUTY_CYCLE_LIMIT = GetConfig.motors('neutral_duty_cycle')
+		#REVERSE_DUTY_CYCLE_LIMIT = GetConfig.motors('reverse_duty_cycle')
 
-		if FORWARD_DUTY_CYCLE_LIMIT > dutyCycle > NEUTRAL_DUTY_CYCLE_LIMIT:
+		#if FORWARD_DUTY_CYCLE_LIMIT > dutyCycle > NEUTRAL_DUTY_CYCLE_LIMIT:
 		
-		elif REVERSE_DUTY_CYCLE_LIMIT < dutyCycle < NEUTRAL_DUTY_CYCLE_LIMIT:
+		#elif REVERSE_DUTY_CYCLE_LIMIT < dutyCycle < NEUTRAL_DUTY_CYCLE_LIMIT:
 
-		elif dutyCycle = NEUTRAL_DUTY_CYCLE_LIMIT:
-			return GetConfig.status('motor_stopped') + motorId + " 0"
+		#elif dutyCycle = NEUTRAL_DUTY_CYCLE_LIMIT:
+		#	return GetConfig.status('motor_stopped') + motorId + " 0"
 
 
 
