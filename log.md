@@ -31,6 +31,7 @@ I have also learned how to better use `*.json` files. This makes configuring stu
 This is where I store ideas for potential solutions to problems with my code
 
 - Store motors/setup values in a ~~dictionary~~ .jsonc file. 
-	- You can just use attributes in the .json file instead of having to iterate through
+	- You can just use objects in the .json file instead of having to iterate through
 		the number of motors and available setup values.
+	- Set the motors as objects and the motor variables as attributes
 
