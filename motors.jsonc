@@ -15,17 +15,18 @@
 	},
 
 
-	
 	/*
 		Additional motors can be added here.
 	*/
 
 	// motor1 config
+	// may need to add motor group id here
 	"motor1":{
-		"id":1,
+		"motorId":1,
 		"type":"vex_393",
 		"name":"Left",
-		"pin":16
+		"pin":16,
+		"reversed":false
 	},
 	
 	// motor2 config
@@ -33,7 +34,8 @@
 		"id":2,
 		"type":"vex_393",
 		"name":"Right",
-		"pin":20
+		"pin":20,
+		"reversed":false
 	}
 
 }
