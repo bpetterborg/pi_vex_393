@@ -47,10 +47,7 @@ class GetConfig:
 # actually doing stuff with the motors.
 class Motor:
 
-	def testModule():
-		return 'Module working probably'
-
-	def getMotorId(self, motor):
+	def getId(self, motor):
 		# get the motor id from the config file
 		self.motor = motor
 		motor_id = GetConfig.motors(motor,'motorId')
