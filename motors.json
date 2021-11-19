@@ -8,7 +8,7 @@
 
 
 	"motor1":{
-		"motorId":1,
+		"id":1,
 		"motorType":"vex_393",
 		"motorGroup":1,
 		"name":"Left",
