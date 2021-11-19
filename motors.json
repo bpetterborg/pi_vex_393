@@ -1,25 +1,23 @@
 {
 	"motor1":{
 		"id":1,
-		"motorType":"vex_393",
 		"motorGroup":1,
 		"name":"Left",
 		"pin":16,
 		"reversed":false,
-		"pwm_frequency":50,
-		"motor_limits":[2,1.5,1]
+		"pwmFreq":50,
+		"motorLimits":[2,1.5,1]
 		
 	},
 	
 	"motor2":{
 		"id":2,
-		"motorType":"vex_393",
 		"motorGroup":1,
 		"name":"Right",
 		"pin":20,
 		"reversed":false,
-		"pwm_frequency":50,
-		"motor_limits":[2,1.5,1]
+		"pwmFrequency":50,
+		"motorLimits":[2,1.5,1]
 	}
 
 }
