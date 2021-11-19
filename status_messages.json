@@ -3,5 +3,6 @@
 	"motor_stopped": "STOP MTR",
 	"error": "ERR",
 	"warning": "WARN",
-	"cleanGpio":"CLN GPIO"
+	"cleanGpio":"CLN GPIO",
+	"setupGpio":"SETUP"
 }
