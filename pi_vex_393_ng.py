@@ -14,53 +14,55 @@
 import RPi.GPIO2 as GPIO	# gpio access
 import json
 
-
+# returns config files as dictionary
 class GetConfig:
 
-	def motor():
+	# get motors config
+	def motor(self, object_index, var_index):
 		
+		self.object_index = object_index
+		self.var_index = var_index
+
+		# open the file
 		with open("motors.json", "r") as motor_config_file:
 			motor_config = json.load(motor_config_file)
-			return motor_config
+			motor_info = motor_config[self.object_index][self.var_index]
+			return motor_info
 
-	def statusMessages():
+	# get status message config
+	def statusMessages(self, object_index, var_index):
 		
+		self.object_index = object_index
+		self.var_index = var_index
+
+		# open the file
 		with open("status_messages.json", "r") as status_config_file:
+			
 			status_config = json.load(status_config_file)
+			status_info = status_config[self.object_index][self.var_index]
 			return status_config
+
+
 
 # actually doing stuff with the motors.
 class Motor:
 
-	def __init__(self, motorId, dutyCycle) -> None:
-		# may need to add varible for spin()
-		self.motor = motorId
-		self.dutyCycle = dutyCycle
-
-	def testModule(self):
+	def testModule():
 		return 'Module working probably'
 
-	def selectMotor(self):
-		return f'Select motor {self.motorId}' 		# change this to debug status json read thing
-		motor_name = GetConfig.motors('motorId') 	# work on this to make it actually fetch motor name
+	def getMotorId(self, motor):
+		# get the motor id from the config file
+		self.motor = motor
+		motor_id = GetConfig.motors(motor,'motorId')
+		return motor_id
 
-	def spin(self, motorId, dutyCycle):
+
+	#def spin(self, motor, dutyCycle):
 		# do fun math on the duty cycle to get it as a percentage
-		return GetConfig.status('motor_spinning') + id
+		#return GetConfig.status('motor_spinning') + id
 
 		# get config 
-		# could probably be replaced with a tuple, would be much cleaner
-		#FORWARD_DUTY_CYCLE_LIMIT = GetConfig.motors('forward_duty_cycle')
-		#NEUTRAL_DUTY_CYCLE_LIMIT = GetConfig.motors('neutral_duty_cycle')
-		#REVERSE_DUTY_CYCLE_LIMIT = GetConfig.motors('reverse_duty_cycle')
-
-		#if FORWARD_DUTY_CYCLE_LIMIT > dutyCycle > NEUTRAL_DUTY_CYCLE_LIMIT:
 		
-		#elif REVERSE_DUTY_CYCLE_LIMIT < dutyCycle < NEUTRAL_DUTY_CYCLE_LIMIT:
-
-		#elif dutyCycle = NEUTRAL_DUTY_CYCLE_LIMIT:
-		#	return GetConfig.status('motor_stopped') + motorId + " 0"
-
 
 
 
