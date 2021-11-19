@@ -30,16 +30,15 @@ class GetConfig:
 			return motor_info
 
 	# get status message config
-	def statusMessages(self, object_index, var_index):
+	def statusMessages(self, var_index):
 		
-		self.object_index = object_index
 		self.var_index = var_index
 
 		# open the file
 		with open("status_messages.json", "r") as status_config_file:
 			
 			status_config = json.load(status_config_file)
-			status_info = status_config[self.object_index][self.var_index]
+			status_info = status_config[self.var_index]
 			return status_config
 
 
@@ -58,22 +57,16 @@ class Motor:
 		# maybe need to create a motor object??
 		self.motor = motor
 		
-		GPIO.setmode(GPIO.BOARD)
+		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(GetConfig.motors(motor,'pin'), GPIO.OUT)
-		return GetConfig.status('setup')
+		return GetConfig.status('setupGpio') + '' + GetConfig.motors(motor,'id')
 
+	#def spin(self, motor, speed):
+		# spin the motor at a speed, represented by a percentage
+	#	self.motor = motor
+	#	self.speed = speed
 
-
-
-	#def spin(self, motor, dutyCycle):
-		# do fun math on the duty cycle to get it as a percentage
-		#return GetConfig.status('motor_spinning') + id
-
-		# get config 
 		
-
-
-
 	def cleanGpio(self):
 		GPIO.cleanup()
 		return GetConfig.status('cleanGpio') 		# test that this actually works
