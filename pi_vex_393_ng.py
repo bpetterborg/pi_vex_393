@@ -50,8 +50,19 @@ class Motor:
 	def getId(self, motor):
 		# get the motor id from the config file
 		self.motor = motor
-		motor_id = GetConfig.motors(motor,'motorId')
+		motor_id = GetConfig.motors(motor,'id')
 		return motor_id
+
+	def setup(self, motor):
+		# setup the gpio pins
+		# maybe need to create a motor object??
+		self.motor = motor
+		
+		GPIO.setmode(GPIO.BOARD)
+		GPIO.setup(GetConfig.motors(motor,'pin'), GPIO.OUT)
+		return GetConfig.status('setup')
+
+
 
 
 	#def spin(self, motor, dutyCycle):
