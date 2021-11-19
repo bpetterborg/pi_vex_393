@@ -3,9 +3,7 @@
 	"vex_393":{
 		"motor_count":2,
 		"pwm_frequency":50,
-		"neutral_duty_cycle":1.5,
-		"forward_duty_cycle":2,
-		"reverse_duty_cycle":1
+		"motor_limits":[2,1.5,1]
 	},
 
 
