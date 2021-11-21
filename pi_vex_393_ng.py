@@ -61,31 +61,40 @@ class Motor:
 		GPIO.setup(GetConfig.motors(motor,'pin'), GPIO.OUT)
 		return GetConfig.status('setupGpio') + '' + GetConfig.motors(motor,'id')
 
-	# def spin(self, motor, speed):
-	# 	# spin the motor at a speed, represented by a percentage
-	# 	# turns the percentage into a duty cycle
-	# 	self.motor = motor
-	# 	self.speed = speed
+	def spin(self, motor, speed):
+		# spin the motor at a speed, represented by a percentage
+		# turns the percentage into a duty cycle
+		self.motor = motor
+		self.speed = speed
 
-	# 	gcm = GetConfig.motor()
-	# 	#spinMotor = GPIO.PWM(gcm(motor, 'pin'), gcm(motor, 'pwmFrequency')).start('duty_cycle')
+		#spinMotor = GPIO.PWM(gcm(motor, 'pin'), gcm(motor, 'pwmFrequency')).start('duty_cycle')
 
-	# 	speed = self.speed 
+		speed = self.speed 
 
-	# 	# 2 to 1.5 is forward, 1.5 to 1 is reverse
-	# 	# 100 to 0 is forward, 0 to -100 is reverse
-	# 	# if speed > 0:
-	# 	# duty_cycle = (speed / 100)
+		# 2 to 1.5 is forward, 1.5 to 1 is reverse
+		# 100 to 0 is forward, 0 to -100 is reverse
 
-	# 	if abs(speed) > 100:
-	# 		return 'Speed too high/low, range is 0 to 100'
+		FWD_DC = GetConfig.motor(self.motor, 'motorLimits[0]')
+		NEU_DC = GetConfig.motor(self.motor, 'motorLimits[1]')
+		RVS_DC = GetConfig.motor(self.motor, 'motorLimits[2]')
 
-	# 	elif speed > 0:
-	# 		duty_cycle = 0.005 * speed
 
-	# 	elif speed < 0:
+		if abs(speed) > 100:
+			return 'Speed too high/low, range is 0 to 100'
 
-	# 	else:
+		elif speed > 0:			
+			# some real wacky formatting :)
+			# also I have no idea if this will work. should test w/ calculator.
+			duty_cycle = ((( FWD_DC - NEU_DC ) / 100 ) * abs(speed)) + NEU_DC
+				
+		elif speed < 0:
+			# unsure if this will work for other PWM motors
+			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * abs(speed)) + (NEU_DC - RVS_DC)
+
+		elif speed == 0:
+			duty_cycle = NEU_DC
+	
+		# still need to actually send the pwm signal to the motor.
 
 
 		
