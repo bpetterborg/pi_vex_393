@@ -39,7 +39,7 @@ class GetConfig:
 			
 			status_config = json.load(status_config_file)
 			status_info = status_config[self.var_index]
-			return status_config
+			return status_info
 
 
 
