@@ -46,6 +46,10 @@ class GetConfig:
 # actually doing stuff with the motors.
 class Motor:
 
+	def __init__(self) -> None:
+		self.currentStatus = current_status
+		pass
+
 	def getId(self, motor):
 		# get the motor id from the config file
 		self.motor = motor
@@ -59,7 +63,10 @@ class Motor:
 		
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(GetConfig.motors(motor,'pin'), GPIO.OUT)
-		return GetConfig.status('setupGpio') + '' + GetConfig.motors(motor,'id')
+		
+		# unsure if this would work for sending the current status
+		self.current_status = GetConfig.status('setupGpio') + '' + GetConfig.motors(motor,'id')
+
 
 	def spin(self, motor, speed):
 		# spin the motor at a speed, represented by a percentage
@@ -95,9 +102,13 @@ class Motor:
 			duty_cycle = NEU_DC
 	
 		# still need to actually send the pwm signal to the motor.
-
-
 		
+
 	def cleanGpio(self):
+		# dump everything with gpio
 		GPIO.cleanup()
-		return GetConfig.status('cleanGpio')
+		self.current_status = GetConfig.status('cleanGpio')
+
+
+	def currentStatus(self):
+		return self.current_status
