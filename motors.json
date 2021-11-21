@@ -2,7 +2,6 @@
 	"motor1":{
 		"id":1,
 		"motorGroup":1,
-		"name":"Left",
 		"pin":16,
 		"reversed":false,
 		"pwmFreq":50,
@@ -13,7 +12,6 @@
 	"motor2":{
 		"id":2,
 		"motorGroup":1,
-		"name":"Right",
 		"pin":20,
 		"reversed":false,
 		"pwmFrequency":50,
