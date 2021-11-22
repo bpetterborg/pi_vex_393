@@ -101,12 +101,10 @@ class Motor:
 
 		elif speed > 0:			
 			# some real wacky formatting :)
-			# also I have no idea if this will work. should test w/ calculator.
-			duty_cycle = ((( FWD_DC - NEU_DC ) / 100 ) * abs(speed)) + NEU_DC
+			duty_cycle = ((( FWD_DC - NEU_DC ) / 100 ) * speed) + NEU_DC
 				
 		elif speed < 0:
 			# unsure if this will work for other PWM motors
-			# this is non-working, test this and find a solution
 			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * speed) + NEU_DC
 
 		elif speed == 0:
