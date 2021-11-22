@@ -86,6 +86,14 @@ class Motor:
 		RVS_DC = GetConfig.motor(self.motor, 'motorLimits[2]')
 
 
+		# if the motor is reversed, rerverse the speed
+		if GetConfig.motor(self.motor, 'reversed')	== True:
+			self.speed = -self.speed
+		
+		else:
+			pass
+
+
 		if abs(speed) > 100:
 			return 'Speed too high/low, range is 0 to 100'
 
