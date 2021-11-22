@@ -14,6 +14,8 @@
 import RPi.GPIO2 as GPIO	# gpio access
 import json
 
+from pi_vex_393.pi_vex_393 import PWM_FREQUENCY
+
 # returns config files as dictionary
 class GetConfig:
 
@@ -72,13 +74,8 @@ class Motor:
 
 	def spin(self, motor, speed):
 		# spin the motor at a speed, represented by a percentage
-		# turns the percentage into a duty cycle
 		self.motor = motor
 		self.speed = speed
-
-		#spinMotor = GPIO.PWM(gcm(motor, 'pin'), gcm(motor, 'pwmFrequency')).start('duty_cycle')
-
-		speed = self.speed 
 
 		# 2 to 1.5 is forward, 1.5 to 1 is reverse
 		# 100 to 0 is forward, 0 to -100 is reverse
@@ -95,23 +92,27 @@ class Motor:
 		else: 
 			pass
 
-
+		
+		# convert a percentage to a duty cycle
 		if abs(speed) > 100:
 			return 'Speed too high/low, range is 0 to 100'
 
 		elif speed > 0:			
 			# some real wacky formatting :)
-			duty_cycle = ((( FWD_DC - NEU_DC ) / 100 ) * speed) + NEU_DC
+			duty_cycle = ((( FWD_DC - NEU_DC ) / 100 ) * self.speed) + NEU_DC
 				
 		elif speed < 0:
 			# unsure if this will work for other PWM motors
-			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * speed) + NEU_DC
+			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * self.speed) + NEU_DC
 
 		elif speed == 0:
 			duty_cycle = NEU_DC
 	
+		# send motor pwm signal
+		motor_pin = GetConfig.motors(self.motor, 'pin')
+		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
 
-		# still need to actually send the pwm signal to the motor.
+		GPIO.pwm(motor_pin, PWM_FREQUENCY).start(duty_cycle)
 		
 
 	def cleanGpio(self):
