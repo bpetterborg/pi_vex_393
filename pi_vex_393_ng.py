@@ -1,8 +1,8 @@
 #
-# Motor control library for Vex 393s
-# Based on RPi.GPIO2
+#	Motor control library for Vex 393s
+#	Based on RPi.GPIO2
 # 
-# Thanks to the RPi.GPIO2 devs, you guys are awesome!
+#	Thanks to the RPi.GPIO2 devs, you guys are awesome!
 #
 #	TODO:
 #		- figure out how to set different motor numbers/names
@@ -29,6 +29,7 @@ class GetConfig:
 			motor_info = motor_config[self.object_index][self.var_index]
 			return motor_info
 
+
 	# get status message config
 	def statusMessages(self, var_index):
 		
@@ -50,15 +51,16 @@ class Motor:
 		self.currentStatus = current_status
 		pass
 
+
 	def getId(self, motor):
 		# get the motor id from the config file
 		self.motor = motor
 		motor_id = GetConfig.motors(motor,'id')
 		return motor_id
 
+
 	def setup(self, motor):
 		# setup the gpio pins
-		# maybe need to create a motor object??
 		self.motor = motor
 		
 		GPIO.setmode(GPIO.BCM)
@@ -90,7 +92,7 @@ class Motor:
 		if GetConfig.motor(self.motor, 'reversed')	== True:
 			self.speed = -self.speed
 		
-		else:
+		else: 
 			pass
 
 
@@ -104,11 +106,13 @@ class Motor:
 				
 		elif speed < 0:
 			# unsure if this will work for other PWM motors
-			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * abs(speed)) + (NEU_DC - RVS_DC)
+			# this is non-working, test this and find a solution
+			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * speed) + NEU_DC
 
 		elif speed == 0:
 			duty_cycle = NEU_DC
 	
+
 		# still need to actually send the pwm signal to the motor.
 		
 
@@ -119,4 +123,5 @@ class Motor:
 
 
 	def currentStatus(self):
+		# most recent status message is stored as a variable. 
 		return self.current_status
