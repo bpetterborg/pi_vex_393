@@ -46,7 +46,7 @@ class GetConfig:
 # actually doing stuff with the motors.
 class Motor:
 
-	def __init__(self) -> None:
+	def __init__(self, current_status) -> None:
 		self.currentStatus = current_status
 		pass
 
