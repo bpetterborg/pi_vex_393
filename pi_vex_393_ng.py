@@ -14,8 +14,6 @@
 import RPi.GPIO2 as GPIO	# gpio access
 import json
 
-from pi_vex_393.pi_vex_393 import PWM_FREQUENCY
-
 # returns config files as dictionary
 class GetConfig:
 
