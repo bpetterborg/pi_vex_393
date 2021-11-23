@@ -1,122 +1,137 @@
-# 
-#	Motor control library
-#	Use to control Vex 393s with RPi.GPIO2
 #
-#	Also, thanks to RPi.GPIO2 devs, you guys are awesome!
-#	
+#	Motor control library for Vex 393s
+#	Based on RPi.GPIO2
+# 
+#	Thanks to the RPi.GPIO2 devs, you guys are awesome!
+#
 #	TODO:
-#		- Put on PyPI
-#			- Make it a submodule
-#		- Fix pwm
-#		- If duty cycle is set wrong, reject it
-#		- Add a config file or way to set the config values easily
-#		- Add support for different numbers of motors
-#		- Move prints to a log, or remove entirely (replace w/ notification for pioled(?)
-#		- Rewrite this
+#		- figure out how to set different motor numbers/names
+#		- parsing config file
+#		- add more motor control functions
+#		- 
 #
 
-import RPi.GPIO2 as GPIO		# interface with the gpio/pwm
+import RPi.GPIO2 as GPIO	# gpio access
 import json
 
-status_config = json.loads(open('status_messages.json'))
+# returns config files as dictionary
+class GetConfig:
 
-left_motor_pin = 16				# which pins to use, may need to set later
-right_motor_pin = 20
+	# get motors config
+	def motor(self, object_index, var_index):
+		
+		self.object_index = object_index
+		self.var_index = var_index
 
-REVERSE_DUTY_CYCLE_LIMIT = 1	# duty cycle forward/reverse/neutral limits
-NEUTRAL_DUTY_CYCLE_LIMIT = 1.5	# may need to be tweaked on a per-motor
-FORWARD_DUTY_CYCLE_LIMIT = 2	# definitely move this to a config file
+		# open the file
+		with open("motors.json", "r") as motor_config_file:
+			motor_config = json.load(motor_config_file)
+			motor_info = motor_config[self.object_index][self.var_index]
+			return motor_info
 
-PWM_FREQUENCY = 50				# frequency of the pwm (hz)
 
-# setup
-GPIO.setmode(GPIO.BCM)					# may need to set this to BOARD is stuff isn't working
-GPIO.setup(left_motor_pin, GPIO.OUT) 	# pin 16 is the left motor
-GPIO.setup(right_motor_pin, GPIO.OUT) 	# pin 20 is the right motor
+	# get status message config
+	def statusMessages(self, var_index):
+		
+		self.var_index = var_index
 
-left_motor_pwm = GPIO.PWM(left_motor_pin, PWM_FREQUENCY).start(NEUTRAL_DUTY_CYCLE_LIMIT)
-right_motor_pwm = GPIO.PWM(right_motor_pin, PWM_FREQUENCY).start(NEUTRAL_DUTY_CYCLE_LIMIT)
+		# open the file
+		with open("status_messages.json", "r") as status_config_file:
+			
+			status_config = json.load(status_config_file)
+			status_info = status_config[self.var_index]
+			return status_info
 
-class Motors:
 
-	# i think this is right??, unfamiliar with classes
-	def __init__(self) -> None:
+
+# actually doing stuff with the motors.
+class Motor:
+
+	def __init__(self, current_status, last_motor) -> None:
+		self.current_status = current_status
+		self.last_motor = last_motor
 		pass
 
 
-	def test_module(self):
-		print('Module working')
+	def getId(self, motor):
+		# get the motor id from the config file
+		self.motor = motor
+		motor_id = GetConfig.motors(motor,'id')
+		return motor_id
+
+
+	def setup(self, motor):
+		# setup the gpio pins
+		self.motor = motor
 		
-
-	def stop(self):
-		# stop the motors
-		print('Stopping')
-		left_motor_pwm.stop()
-		right_motor_pwm.stop()
-
-
-	def clean_gpio(self):
-		# clean up the gpio
-		print('Cleaning GPIO')
-		GPIO.cleanup()	# resets gpio used to input
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(GetConfig.motors(motor,'pin'), GPIO.OUT)
+		
+		# unsure if this would work for sending the current status
+		self.current_status = GetConfig.status('setupGpio') + '' + GetConfig.motors(motor,'id')
 
 
+	def spin(self, motor, speed):
+		# spin the motor at a speed, represented by a percentage
+		self.motor = motor
+		self.speed = speed
 
-	# control left motor
-	class Left:
-		def __init__(self):
+		# 2 to 1.5 is forward, 1.5 to 1 is reverse
+		# 100 to 0 is forward, 0 to -100 is reverse
+
+		FWD_DC = GetConfig.motor(self.motor, 'motorLimits[0]')
+		NEU_DC = GetConfig.motor(self.motor, 'motorLimits[1]')
+		RVS_DC = GetConfig.motor(self.motor, 'motorLimits[2]')
+
+
+		# if the motor is reversed, rerverse the speed
+		if GetConfig.motor(self.motor, 'reversed')	== True:
+			self.speed = -self.speed
+		
+		else: 
 			pass
 
 
-		def spin(self, duty_cycle):
-			# spin the left motor
-			
-			# if this part doesn't work, probably use AND instead of double >
-			# go forward
-			if FORWARD_DUTY_CYCLE_LIMIT >= duty_cycle >= NEUTRAL_DUTY_CYCLE_LIMIT:
-				left_motor_pwm(duty_cycle)
-				print(f'Spinning left motor forwards with duty cycle {duty_cycle}')
-				left_motor_status = ""
+		# convert a percentage to a duty cycle
+		if speed < 100:
+			duty_cycle = FWD_DC
 
-			# if not then go backward
-			elif REVERSE_DUTY_CYCLE_LIMIT <= duty_cycle <= NEUTRAL_DUTY_CYCLE_LIMIT:
-				left_motor_pwm(duty_cycle)
-				print(f'Spinning left motor reverse with duty cycle {duty_cycle}')
+		elif speed > -100:
+			duty_cycle = RVS_DC
 
-			# if not that return an error
-			else: 
-				return "Duty cycle set incorrectly"
+		elif speed > 0:			
+			# some real wacky formatting :)
+			duty_cycle = ((( FWD_DC - NEU_DC ) / 100 ) * self.speed) + NEU_DC
+				
+		elif speed < 0:
+			# unsure if this will work for other PWM motors
+			duty_cycle = ((( NEU_DC - RVS_DC ) / 100 ) * self.speed) + NEU_DC
 
-		def stop(self):
-			# stop the left motor
-			print(f'Stopping left motor')
-			left_motor_pwm.stop()
+		elif speed == 0:
+			duty_cycle = NEU_DC
+	
+		# send motor pwm signal
+		motor_pin = GetConfig.motors(self.motor, 'pin')
+		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
+
+		GPIO.pwm(motor_pin, PWM_FREQUENCY).start(duty_cycle)
+		self.current_status = GetConfig.statusMessages('motor_spinning')
 
 
+	def stop(self, motor):
+		# stop the motor
+		self.motor = motor
+		pin = GetConfig.motors(self.motor, 'pin')
+		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
+		GPIO.pwm(pin, PWM_FREQUENCY).stop()
 
-	# control right motor
-	class Right:
-		def __init__(self) -> None:
-			pass
 
-		def spin(self, duty_cycle):
-			# go forward
-			if FORWARD_DUTY_CYCLE_LIMIT >= duty_cycle >= NEUTRAL_DUTY_CYCLE_LIMIT:
-				right_motor_pwm(duty_cycle)
-				print(f'Spinning right motor forwards with duty cycle {duty_cycle}')
+	def cleanGpio(self):
+		# dump everything with gpio
+		GPIO.cleanup()
+		self.current_status = GetConfig.status('cleanGpio')
 
-			# if not then go backward
-			elif REVERSE_DUTY_CYCLE_LIMIT <= duty_cycle <= NEUTRAL_DUTY_CYCLE_LIMIT:
-				right_motor_pwm(duty_cycle)
-				print(f'Spinning right motor resverse with duty cycle {duty_cycle}')
 
-			# if not that return an error.
-			else: 
-				return "Duty cycle set incorrectly"	# can i use a ValueError here?
-
-		def stop(self):
-			# stop right motor
-			print(f'Stopping right motor')
-			right_motor_pwm.stop()
-			
-		
+	def currentStatus(self):
+		# most recent status message is stored as a variable. 
+		return self.current_status
