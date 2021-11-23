@@ -49,8 +49,9 @@ class GetConfig:
 # actually doing stuff with the motors.
 class Motor:
 
-	def __init__(self, current_status) -> None:
-		self.currentStatus = current_status
+	def __init__(self, current_status, last_motor) -> None:
+		self.current_status = current_status
+		self.last_motor = last_motor
 		pass
 
 
@@ -120,15 +121,18 @@ class Motor:
 
 		GPIO.pwm(motor_pin, PWM_FREQUENCY).start(duty_cycle)
 		self.current_status = GetConfig.statusMessages('motor_spinning')
-		
-		
+
+
 	def stop(self, motor):
 		# stop the motor
 		self.motor = motor
+		pin = GetConfig.motors(self.motor, 'pin')
+		GPIO.pwm(pin, PWM_FREQUENCY).stop()
 		
 
 	def cleanGpio(self):
 		# dump everything with gpio
+
 		GPIO.cleanup()
 		self.current_status = GetConfig.status('cleanGpio')
 
