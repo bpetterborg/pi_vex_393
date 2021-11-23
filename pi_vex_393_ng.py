@@ -92,9 +92,15 @@ class Motor:
 		else: 
 			pass
 
-		
+
 		# convert a percentage to a duty cycle
-		if abs(speed) > 100:
+		if speed < 100:
+			duty_cycle = FWD_DC
+
+		elif speed > -100:
+			duty_cycle = RVS_DC
+		
+		elif abs(speed) > 100:
 			return 'Speed too high/low, range is 0 to 100'
 
 		elif speed > 0:			
@@ -113,6 +119,12 @@ class Motor:
 		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
 
 		GPIO.pwm(motor_pin, PWM_FREQUENCY).start(duty_cycle)
+		self.current_status = GetConfig.statusMessages('motor_spinning')
+		
+		
+	def stop(self, motor):
+		# stop the motor
+		self.motor = motor
 		
 
 	def cleanGpio(self):
