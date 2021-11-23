@@ -124,6 +124,7 @@ class Motor:
 		# stop the motor
 		self.motor = motor
 		pin = GetConfig.motors(self.motor, 'pin')
+		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
 		GPIO.pwm(pin, PWM_FREQUENCY).stop()
 
 
