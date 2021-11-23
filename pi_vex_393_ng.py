@@ -130,7 +130,6 @@ class Motor:
 
 	def cleanGpio(self):
 		# dump everything with gpio
-
 		GPIO.cleanup()
 		self.current_status = GetConfig.status('cleanGpio')
 
