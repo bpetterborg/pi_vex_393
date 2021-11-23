@@ -100,9 +100,6 @@ class Motor:
 
 		elif speed > -100:
 			duty_cycle = RVS_DC
-		
-		elif abs(speed) > 100:
-			return 'Speed too high/low, range is 0 to 100'
 
 		elif speed > 0:			
 			# some real wacky formatting :)
@@ -128,7 +125,7 @@ class Motor:
 		self.motor = motor
 		pin = GetConfig.motors(self.motor, 'pin')
 		GPIO.pwm(pin, PWM_FREQUENCY).stop()
-		
+
 
 	def cleanGpio(self):
 		# dump everything with gpio
