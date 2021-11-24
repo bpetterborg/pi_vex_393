@@ -1,5 +1,5 @@
 {
-	"motor1":{
+	"left":{
 		"id":1,
 		"motorGroup":1,
 		"pin":16,
@@ -9,7 +9,7 @@
 		
 	},
 	
-	"motor2":{
+	"right":{
 		"id":2,
 		"motorGroup":1,
 		"pin":20,
