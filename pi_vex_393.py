@@ -5,10 +5,7 @@
 #	Thanks to the RPi.GPIO2 devs, you guys are awesome!
 #
 #	TODO:
-#		- figure out how to set different motor numbers/names
-#		- parsing config file
-#		- add more motor control functions
-#		- 
+#		- Testing
 #
 
 import RPi.GPIO2 as GPIO	# gpio access
@@ -82,7 +79,7 @@ class Motor:
 		FWD_DC = GetConfig.motor(self.motor, 'motorLimits[0]')
 		NEU_DC = GetConfig.motor(self.motor, 'motorLimits[1]')
 		RVS_DC = GetConfig.motor(self.motor, 'motorLimits[2]')
-
+	
 
 		# if the motor is reversed, rerverse the speed
 		if GetConfig.motor(self.motor, 'reversed')	== True:
