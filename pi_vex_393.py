@@ -90,10 +90,10 @@ class Motor:
 
 
 		# convert a percentage to a duty cycle
-		if speed < 100:
+		if speed > 100:
 			duty_cycle = FWD_DC
 
-		elif speed > -100:
+		elif speed < -100:
 			duty_cycle = RVS_DC
 
 		elif speed > 0:			
