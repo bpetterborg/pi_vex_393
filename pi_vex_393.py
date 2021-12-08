@@ -8,7 +8,7 @@
 #		- Testing
 #
 
-import RPi.GPIO2 as GPIO	# gpio access
+import RPi.GPIO as GPIO	# gpio access
 import json
 
 # returns config files as dictionary
