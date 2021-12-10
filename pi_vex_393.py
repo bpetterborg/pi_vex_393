@@ -112,7 +112,7 @@ class Motor:
 		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
 
 		GPIO.pwm(motor_pin, PWM_FREQUENCY).start(duty_cycle)
-		self.current_status = GetConfig.statusMessages('motor_spinning')
+		self.current_status = GetConfig.statusMessages('motorSpinning')
 
 
 	def stop(self, motor):
@@ -121,7 +121,7 @@ class Motor:
 		pin = GetConfig.motors(self.motor, 'pin')
 		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
 		GPIO.pwm(pin, PWM_FREQUENCY).stop()
-		self.current_status = GetConfig.statusMessages('motor_stopped')
+		self.current_status = GetConfig.statusMessages('motorStopped')
 
 
 	def cleanGpio(self):
