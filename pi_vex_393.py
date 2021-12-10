@@ -121,6 +121,7 @@ class Motor:
 		pin = GetConfig.motors(self.motor, 'pin')
 		PWM_FREQUENCY = GetConfig.motors(self.motor, 'pwmFrequency')
 		GPIO.pwm(pin, PWM_FREQUENCY).stop()
+		self.current_status = GetConfig.statusMessages('motor_stopped')
 
 
 	def cleanGpio(self):
